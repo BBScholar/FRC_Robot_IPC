@@ -43,6 +43,19 @@ http_archive(
 
 load("@rules_jvm_external//:defs.bzl", "maven_install")
 
+maven_install(
+    artifacts = [
+        "junit:junit:4.12",
+        "androidx.test.espresso:espresso-core:3.1.1",
+        "org.hamcrest:hamcrest-library:1.3",
+    ],
+    repositories = [
+        # Private repositories are supported through HTTP Basic auth
+        "https://jcenter.bintray.com/",
+        "https://maven.google.com",
+    ],
+)
+
 new_git_repository(
     name = "zeromq",
     remote = "https://github.com/zeromq/libzmq.git",
@@ -55,6 +68,13 @@ new_git_repository(
             visibility = ['//visibility:public']
         )
     """
+)
+
+new_git_repository(
+    name = "allwpilib",
+    remote = "https://github.com/wpilibsuite/allwpilib.git",
+    tag = "v2020.2.2",
+    build_file = "//third_party:allwpilib.BUILD"
 )
 
 new_git_repository(
@@ -77,4 +97,12 @@ new_git_repository(
         name="pyzmq"
     )
     """
+)
+
+# steal ni libs from 971
+http_archive(
+    name = "allwpilib_ni_libraries_2019",
+    build_file = "@//third_party:ni-libraries-2019.BUILD",
+    sha256 = "2cdcde3391f36877b7533e15d0f36baf696b27c1107b77192a8200e26f13278c",
+    url = "http://www.frc971.org/Build-Dependencies/allwpilib_ni-libraries_4785480.tar.gz",
 )
