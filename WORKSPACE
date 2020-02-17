@@ -9,6 +9,13 @@ git_repository(
     remote = "https://github.com/google/flatbuffers.git"
 )
 
+git_repository(
+    name="gtest",
+    tag="release-1.8.1",
+    init_submodules=True,
+    remote = "https://github.com/google/googletest.git"
+)
+
 http_archive(
     name = "io_bazel_rules_go",
     urls = [
@@ -23,6 +30,18 @@ load("@io_bazel_rules_go//go:deps.bzl", "go_rules_dependencies", "go_register_to
 go_rules_dependencies()
 
 go_register_toolchains()
+
+RULES_JVM_EXTERNAL_TAG = "3.0"
+RULES_JVM_EXTERNAL_SHA = "62133c125bf4109dfd9d2af64830208356ce4ef8b165a6ef15bbff7460b35c3a"
+
+http_archive(
+    name = "rules_jvm_external",
+    strip_prefix = "rules_jvm_external-%s" % RULES_JVM_EXTERNAL_TAG,
+    sha256 = RULES_JVM_EXTERNAL_SHA,
+    url = "https://github.com/bazelbuild/rules_jvm_external/archive/%s.zip" % RULES_JVM_EXTERNAL_TAG,
+)
+
+load("@rules_jvm_external//:defs.bzl", "maven_install")
 
 new_git_repository(
     name = "zeromq",
@@ -45,6 +64,7 @@ new_git_repository(
     build_file_content = """cc_library(
         name = "cppzmq",
         hdrs = ["zmq.hpp", "zmq_addon.hpp"],
+        deps = ["@zeromq//:zeromq"]
         visibility = ['//visibility:public']
     )"""
 )
