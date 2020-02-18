@@ -73,7 +73,7 @@ new_git_repository(
 new_git_repository(
     name = "allwpilib",
     remote = "https://github.com/wpilibsuite/allwpilib.git",
-    tag = "v2020.2.2",
+    tag = "v2019.4.1",
     build_file = "//third_party:allwpilib.BUILD"
 )
 
