@@ -1,4 +1,4 @@
-bazel-bin/
-bazel-ipc_poc/
-bazel-out/
-bazel_testlogs/
+bazel-bin
+bazel-ipc_poc
+bazel-out
+bazel_testlogs
