@@ -1,0 +1,10 @@
+cc_library(
+    name="wpiutil",
+    srcs=[
+        "linux/athena/static/libwpiutil.a",
+    ],
+    deps=[
+        "@wpiutil_hdrs//:hdrs",
+    ],
+    visibility=["//visibility:public"],
+)

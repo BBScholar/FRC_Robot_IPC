@@ -1,0 +1,12 @@
+cc_library(
+    name="cscore",
+    srcs=[
+        "linux/athena/static/libcscore.a",
+    ],
+    deps=[
+        "@cscore_hdrs//:hdrs",
+        "@wpiutil//:wpiutil",
+        "@opencv//:opencv",
+    ],
+    visibility=["//visibility:public"],
+)

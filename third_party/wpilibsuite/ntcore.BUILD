@@ -1,0 +1,11 @@
+cc_library(
+    name="ntcore",
+    srcs=[
+        "linux/athena/static/libntcore.a",
+    ],
+    deps=[
+        "@ntcore_hdrs//:hdrs",
+        "@wpiutil//:wpiutil",
+    ],
+    visibility=["//visibility:public"],
+)

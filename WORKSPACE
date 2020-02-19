@@ -31,30 +31,6 @@ go_rules_dependencies()
 
 go_register_toolchains()
 
-RULES_JVM_EXTERNAL_TAG = "3.0"
-RULES_JVM_EXTERNAL_SHA = "62133c125bf4109dfd9d2af64830208356ce4ef8b165a6ef15bbff7460b35c3a"
-
-http_archive(
-    name = "rules_jvm_external",
-    strip_prefix = "rules_jvm_external-%s" % RULES_JVM_EXTERNAL_TAG,
-    sha256 = RULES_JVM_EXTERNAL_SHA,
-    url = "https://github.com/bazelbuild/rules_jvm_external/archive/%s.zip" % RULES_JVM_EXTERNAL_TAG,
-)
-
-load("@rules_jvm_external//:defs.bzl", "maven_install")
-
-maven_install(
-    artifacts = [
-        "junit:junit:4.12",
-        "androidx.test.espresso:espresso-core:3.1.1",
-        "org.hamcrest:hamcrest-library:1.3",
-    ],
-    repositories = [
-        # Private repositories are supported through HTTP Basic auth
-        "https://jcenter.bintray.com/",
-        "https://maven.google.com",
-    ],
-)
 
 new_git_repository(
     name = "zeromq",
@@ -68,13 +44,6 @@ new_git_repository(
             visibility = ['//visibility:public']
         )
     """
-)
-
-new_git_repository(
-    name = "allwpilib",
-    remote = "https://github.com/wpilibsuite/allwpilib.git",
-    tag = "v2019.4.1",
-    build_file = "//third_party:allwpilib.BUILD"
 )
 
 new_git_repository(
@@ -99,10 +68,189 @@ new_git_repository(
     """
 )
 
-# steal ni libs from 971
+hdrs_content = """
+cc_library(
+    name = "hdrs",
+    hdrs = glob([
+        "**/*.h",
+        "**/*.inc",
+        "**/*.inl",
+    ]),
+    includes = ["."],
+    visibility = ["//visibility:public"],
+)
+"""
+
 http_archive(
-    name = "allwpilib_ni_libraries_2019",
-    build_file = "@//third_party:ni-libraries-2019.BUILD",
-    sha256 = "2cdcde3391f36877b7533e15d0f36baf696b27c1107b77192a8200e26f13278c",
-    url = "http://www.frc971.org/Build-Dependencies/allwpilib_ni-libraries_4785480.tar.gz",
+    name="wpilibc_hdrs",
+    urls=["https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/wpilibc/wpilibc-cpp/2020.2.2/wpilibc-cpp-2020.2.2-headers.zip"],
+    build_file_content=hdrs_content,
+)
+
+http_archive(
+    name="wpilibc",
+    urls=["https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/wpilibc/wpilibc-cpp/2020.2.2/wpilibc-cpp-2020.2.2-linuxathenastatic.zip"],
+    build_file="//third_party/wpilibsuite:wpilibc.BUILD",
+)
+
+http_archive(
+    name="hal_hdrs",
+    urls=["https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/hal/hal-cpp/2020.2.2/hal-cpp-2020.2.2-headers.zip"],
+    build_file_content=hdrs_content,
+)
+
+http_archive(
+    name="hal",
+    urls=["https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/hal/hal-cpp/2020.2.2/hal-cpp-2020.2.2-linuxathenastatic.zip"],
+    build_file="//third_party/wpilibsuite:hal.BUILD",
+)
+
+http_archive(
+    name="wpiutil_hdrs",
+    urls=["https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/wpiutil/wpiutil-cpp/2020.2.2/wpiutil-cpp-2020.2.2-headers.zip"],
+    build_file_content=hdrs_content,
+)
+
+http_archive(
+    name="wpiutil",
+    urls=["https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/wpiutil/wpiutil-cpp/2020.2.2/wpiutil-cpp-2020.2.2-linuxathenastatic.zip"],
+    build_file="//third_party/wpilibsuite:wpiutil.BUILD",
+)
+
+http_archive(
+    name="ntcore_hdrs",
+    urls=["https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/ntcore/ntcore-cpp/2020.2.2/ntcore-cpp-2020.2.2-headers.zip"],
+    build_file_content=hdrs_content,
+)
+
+http_archive(
+    name="ntcore",
+    urls=["https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/ntcore/ntcore-cpp/2020.2.2/ntcore-cpp-2020.2.2-linuxathenastatic.zip"],
+    build_file="//third_party/wpilibsuite:ntcore.BUILD",
+)
+
+http_archive(
+    name="cameraserver_hdrs",
+    urls=["https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/cameraserver/cameraserver-cpp/2020.2.2/cameraserver-cpp-2020.2.2-headers.zip"],
+    build_file_content=hdrs_content,
+)
+
+http_archive(
+    name="cameraserver",
+    urls=["https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/cameraserver/cameraserver-cpp/2020.2.2/cameraserver-cpp-2020.2.2-linuxathenastatic.zip"],
+    build_file="//third_party/wpilibsuite:cameraserver.BUILD",
+)
+
+http_archive(
+    name="cscore_hdrs",
+    urls=["https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/cscore/cscore-cpp/2020.2.2/cscore-cpp-2020.2.2-headers.zip"],
+    build_file_content=hdrs_content,
+)
+
+http_archive(
+    name="cscore",
+    urls=["https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/cscore/cscore-cpp/2020.2.2/cscore-cpp-2020.2.2-linuxathenastatic.zip"],
+    build_file="//third_party/wpilibsuite:cscore.BUILD",
+)
+
+http_archive(
+    name="ctre_phoenix_api_cpp_hdrs",
+    urls=["https://devsite.ctr-electronics.com/maven/release/com/ctre/phoenix/api-cpp/5.16.0/api-cpp-5.16.0-headers.zip"],
+    build_file_content=hdrs_content,
+)
+
+http_archive(
+    name="ctre_phoenix_api_cpp",
+    urls=["https://devsite.ctr-electronics.com/maven/release/com/ctre/phoenix/api-cpp/5.16.0/api-cpp-5.16.0-linuxathenastatic.zip"],
+    build_file="//third_party/ctre/phoenix:api_cpp.BUILD",
+)
+
+http_archive(
+    name="ctre_phoenix_core_hdrs",
+    urls=["https://devsite.ctr-electronics.com/maven/release/com/ctre/phoenix/core/5.16.0/core-5.16.0-headers.zip"],
+    build_file_content=hdrs_content,
+)
+
+http_archive(
+    name="ctre_phoenix_core",
+    urls=["https://devsite.ctr-electronics.com/maven/release/com/ctre/phoenix/core/5.16.0/core-5.16.0-linuxathenastatic.zip"],
+    build_file="//third_party/ctre/phoenix:core.BUILD",
+)
+
+http_archive(
+    name="ctre_phoenix_cci_hdrs",
+    urls=["https://devsite.ctr-electronics.com/maven/release/com/ctre/phoenix/cci/5.16.0/cci-5.16.0-headers.zip"],
+    build_file_content=hdrs_content,
+)
+
+http_archive(
+    name="ctre_phoenix_cci",
+    urls=["https://devsite.ctr-electronics.com/maven/release/com/ctre/phoenix/cci/5.16.0/cci-5.16.0-linuxathenastatic.zip"],
+    build_file="//third_party/ctre/phoenix:cci.BUILD",
+)
+
+http_archive(
+    name="ctre_phoenix_wpiapi_cpp_hdrs",
+    urls=["https://devsite.ctr-electronics.com/maven/release/com/ctre/phoenix/wpiapi-cpp/5.16.0/wpiapi-cpp-5.16.0-headers.zip"],
+    build_file_content=hdrs_content,
+)
+
+http_archive(
+    name="ctre_phoenix_wpiapi_cpp",
+    urls=["https://devsite.ctr-electronics.com/maven/release/com/ctre/phoenix/wpiapi-cpp/5.16.0/wpiapi-cpp-5.16.0-linuxathenastatic.zip"],
+    build_file="//third_party/ctre/phoenix:wpiapi_cpp.BUILD",
+)
+
+http_archive(
+    name="ni_libraries_netcomm_hdrs",
+    urls=["https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/ni-libraries/netcomm/2020.9.2/netcomm-2020.9.2-headers.zip"],
+    build_file_content=hdrs_content,
+)
+
+http_archive(
+    name="ni_libraries_netcomm",
+    urls=["https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/ni-libraries/netcomm/2020.9.2/netcomm-2020.9.2-linuxathena.zip"],
+    build_file="//third_party/ni_libraries:netcomm.BUILD",
+)
+
+http_archive(
+    name="ni_libraries_chipobject_hdrs",
+    urls=["https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/ni-libraries/chipobject/2020.9.2/chipobject-2020.9.2-headers.zip"],
+    build_file_content=hdrs_content,
+)
+
+http_archive(
+    name="ni_libraries_chipobject",
+    urls=["https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/ni-libraries/chipobject/2020.9.2/chipobject-2020.9.2-linuxathena.zip"],
+    build_file="//third_party/ni_libraries:chipobject.BUILD",
+)
+
+http_archive(
+    name="ni_libraries_runtime",
+    urls=["https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/ni-libraries/runtime/2020.9.2/runtime-2020.9.2-linuxathena.zip"],
+    build_file="//third_party/ni_libraries:runtime.BUILD",
+)
+
+http_archive(
+    name="ni_libraries_visa_hdrs",
+    urls=["https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/ni-libraries/visa/2020.9.2/visa-2020.9.2-headers.zip"],
+    build_file_content=hdrs_content,
+)
+
+http_archive(
+    name="ni_libraries_visa",
+    urls=["https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/ni-libraries/visa/2020.9.2/visa-2020.9.2-linuxathena.zip"],
+    build_file="//third_party/ni_libraries:visa.BUILD",
+)
+
+http_archive(
+    name="opencv_hdrs",
+    urls=["https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/thirdparty/frc2020/opencv/opencv-cpp/3.4.7-2/opencv-cpp-3.4.7-2-headers.zip"],
+    build_file_content=hdrs_content,
+)
+
+http_archive(
+    name="opencv",
+    urls=["https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/thirdparty/frc2020/opencv/opencv-cpp/3.4.7-2/opencv-cpp-3.4.7-2-linuxathenastatic.zip"],
+    build_file="//third_party/wpilibsuite:opencv.BUILD",
 )

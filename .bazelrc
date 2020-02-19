@@ -1,1 +1,3 @@
-build --cxxopt='-std=c++14'
+build:roborio --crosstool_top=//third_party/roborio_toolchain:roborio_toolchain_suite
+build:roborio --experimental_use_sandboxfs
+
