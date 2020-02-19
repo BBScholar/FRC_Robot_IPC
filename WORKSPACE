@@ -1,3 +1,5 @@
+workspace(name = "FRC_IPC")
+
 load('@bazel_tools//tools/build_defs/repo:git.bzl', 'git_repository', 'new_git_repository')
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
@@ -5,6 +7,7 @@ WPILIB_VERSION = "2020.2.2"
 NI_LIB_VERSION = "2020.9.2"
 CTRE_LIB_VERSION = "5.16.0"
 OPEN_CV_VERSION = "3.4.7-2"
+EIGEN_VERSION = "3.3.7"
 
 git_repository(
     name="com_github_google_flatbuffers",
@@ -35,41 +38,32 @@ go_rules_dependencies()
 
 go_register_toolchains()
 
+new_git_repository(
+    name="eigen",
+    remote="https://gitlab.com/libeigen/eigen.git",
+    tag="{}".format(EIGEN_VERSION),
+    build_file = "//third_party/eigen:eigen.BUILD"
+)
 
 new_git_repository(
-    name = "zeromq",
+    name = "libzmq",
     remote = "https://github.com/zeromq/libzmq.git",
     tag = "v4.3.2",
-    build_file_content = """cc_library(
-            name = "zeromq",
-            includes = ['include/'],
-            hdrs = glob(["include/*.h"]) + glob(["src/**/*.h"]) + glob(["src/**/*.hpp"]),
-            srcs = glob(["src/**/*.cpp"]),
-            visibility = ['//visibility:public']
-        )
-    """
+    build_file = "//third_party/zeromq:libzmq.BUILD"
 )
 
 new_git_repository(
     name = "cppzmq",
     remote = "https://github.com/zeromq/cppzmq.git",
     tag = "v4.6.0",
-    build_file_content = """cc_library(
-        name = "cppzmq",
-        hdrs = ["zmq.hpp", "zmq_addon.hpp"],
-        deps = ["@zeromq//:zeromq"]
-        visibility = ['//visibility:public']
-    )"""
+    build_file = "//third_party/zeromq:cppzmq.BUILD"
 )
 
 new_git_repository(
     name="pyzmq",
     remote="https://github.com/zeromq/pyzmq.git",
     tag="v18.1.1",
-    build_file_content = """py_library(
-        name="pyzmq"
-    )
-    """
+    build_file = "//third_party/zeromq:pyzmq.BUILD"
 )
 
 hdrs_content = """

@@ -3,5 +3,5 @@ cc_binary(
     name = "main",
     srcs = ["main.cpp", "main.h"],
     copts = [],
-    deps = ["@wpilibc//:wpilibc", "@ctre_phoenix_api_cpp//:ctre_phoenix_api_cpp", ],
+    deps = ["@wpilibc//:wpilibc", "@ctre_phoenix_api_cpp//:ctre_phoenix_api_cpp", "@eigen//:eigen"],
 )
