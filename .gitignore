@@ -1,4 +1,4 @@
 bazel-bin
-bazel-ipc_poc
+bazel-FRC_Robot_IPC
 bazel-out
 bazel-testlogs
