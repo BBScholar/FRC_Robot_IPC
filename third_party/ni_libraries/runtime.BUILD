@@ -35,6 +35,7 @@ cc_library(
     ],
     deps=[
         ":ni_libraries_runtime_NiFpga",
+        "@hal//:hal"
     ],
     visibility=["//visibility:public"],
 )
