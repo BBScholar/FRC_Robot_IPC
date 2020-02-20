@@ -16,10 +16,9 @@ jobs:
         echo "deb [arch=amd64] https://storage.googleapis.com/bazel-apt stable jdk1.8" | sudo tee /etc/apt/sources.list.d/bazel.list
         sudo apt update && sudo apt install bazel
         sudo apt install bazel-2.1.0
-        sudo apt install libfuse2
-        curl -OL https://github.com/bazelbuild/sandboxfs/releases/download/sandboxfs-0.1.1/sandboxfs-0.1.1-20191024-linux-x86_64.tgz
-        mkdir ~/local/
-        tar xzv -C ~/local/ -f sandboxfs-0.1.1-20191024-linux-x86_64.tgz
+        sudo apt install libfuse-dev pkg-config
+        rustup update
+        cargo install sandboxfs
     
     - name: Test
       run: |
