@@ -25,11 +25,11 @@ jobs:
         bazel build //... --config=roborio
     
     - uses: DoozyX/clang-format-lint-action@v0.5
-        with:
-          source: '.'
-          exclude: './third_party'
-          extensions: 'h,cpp'
-          clangFormatVersion: 9
+      with:
+        source: '.'
+        exclude: './third_party'
+        extensions: 'h,cpp'
+        clangFormatVersion: 9
 
     
     # - name: Test
