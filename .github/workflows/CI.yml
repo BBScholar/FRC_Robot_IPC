@@ -19,7 +19,7 @@ jobs:
         sudo apt install libfuse2
         curl -OL https://github.com/bazelbuild/sandboxfs/releases/download/sandboxfs-0.1.1/sandboxfs-0.1.1-20191024-linux-x86_64.tgz
         ls
-        tar xzv -C /usr/local -f sandboxfs-0.1.1-20191024-linux-x86_64.tgz
+        tar xzv -C ~/local/ -f sandboxfs-0.1.1-20191024-linux-x86_64.tgz
     
     - name: Test
       run: |
