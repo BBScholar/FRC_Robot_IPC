@@ -19,13 +19,15 @@ jobs:
         sudo apt install libfuse-dev pkg-config
         rustup update
         cargo install sandboxfs
-    
-    - name: Test
-      run: |
-        bazel test //... --config=roborio
 
     - name: Build
       run: |
         bazel build //... --config=roborio
+    
+    # - name: Test
+    #   run: |
+    #     bazel test //... --config=roborio
+
+
     
 
