@@ -17,6 +17,6 @@ jobs:
         sudo apt update && sudo apt install bazel
         sudo apt install bazel-2.1.0
     
-    -name: Run
+    - name: Run
       run: |
         bazel build //... --config=roborio
