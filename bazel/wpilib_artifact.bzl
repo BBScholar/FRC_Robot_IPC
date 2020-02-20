@@ -8,7 +8,7 @@ load(
 _wpilib_artifact_attrs = {
     "version": attr.string(mandatory=True),
     "base_url": attr.string(mandatory=True),
-    "config_settings": attr.string_list_dict(),
+    "variants": attr.string_list_dict(),
     "deps": attr.string_list(),
 
     "has_hdrs": attr.bool(default=True),
@@ -32,7 +32,7 @@ cc_library(
         "hdrs/**/*.inc",
         "hdrs/**/*.inl",
     ]),
-    includes = ["."],
+    includes = ["hdrs"],
 )
 """
 
@@ -53,66 +53,102 @@ def _wpilib_artifact_impl(ctx):
         ).sha256
         output_build_file_content += HEADER_BUILD_FILE_CONTENT
 
-    for config_setting_name, config_setting_constraint_values in ctx.attr.config_settings.items():
+    for variant_name, variant_constraint_values in ctx.attr.variants.items():
         output_build_file_content += """
 config_setting(
-    name = "{config_setting_name}",
-    constraint_values = [{config_setting_constraint_values}],
+    name = "{variant_name}_config",
+    constraint_values = [{variant_constraint_values}],
 )
 """.format(
-    config_setting_name=config_setting_name,
-    config_setting_constraint_values=", ".join([
-        "\"{}\"".format(config_setting_constraint_value)
-        for config_setting_constraint_value
-        in config_setting_constraint_values
+    variant_name=variant_name,
+    variant_constraint_values=", ".join([
+        "\"{}\"".format(variant_constraint_value)
+        for variant_constraint_value
+        in variant_constraint_values
     ]),
 )
 
         if ctx.attr.has_shared:
-            shared_url = "{base_url}/{name}/{version}/{name}-{version}-{config_setting_name}.zip".format(
+            shared_url = "{base_url}/{name}/{version}/{name}-{version}-{variant_name}.zip".format(
                 base_url=ctx.attr.base_url,
                 name=ctx.attr.name,
                 version=ctx.attr.version,
-                config_setting_name=config_setting_name,
+                variant_name=variant_name,
             )
             ctx.download_and_extract(
                 shared_url,
-                "{config_setting_name}_shared".format(config_setting_name=config_setting_name),
+                "{variant_name}_shared".format(variant_name=variant_name),
             )
             output_build_file_content += """
 cc_library(
-    name = "{config_setting_name}_shared",
-    srcs = glob([
-        "{config_setting_name}_shared/**/*.so",
-        "{config_setting_name}_shared/**/*.so.*",
-    ]),
+    name = "{variant_name}_shared",
+    srcs = glob(
+        [
+            "{variant_name}_shared/**/*.so",
+            "{variant_name}_shared/**/*.so.*",
+        ],
+        exclude = ["{variant_name}_shared/**/*.debug"],
+    ),
 )
-""".format(config_setting_name=config_setting_name)
+""".format(variant_name=variant_name)
 
         if ctx.attr.has_static:
-            static_url = "{base_url}/{name}/{version}/{name}-{version}-{config_setting_name}.zip".format(
+            static_url = "{base_url}/{name}/{version}/{name}-{version}-{variant_name}static.zip".format(
                 base_url=ctx.attr.base_url,
                 name=ctx.attr.name,
                 version=ctx.attr.version,
-                config_setting_name=config_setting_name,
+                variant_name=variant_name,
             )
             ctx.download_and_extract(
                 static_url,
-                "{config_setting_name}_static".format(config_setting_name=config_setting_name),
+                "{variant_name}_static".format(variant_name=variant_name),
             )
             output_build_file_content += """
 cc_library(
-    name = "{config_setting_name}_static",
+    name = "{variant_name}_static",
     srcs = glob([
-        "{config_setting_name}_static/**/*.a",
+        "{variant_name}_static/**/*.a",
     ]),
 )
-""".format(config_setting_name=config_setting_name)
+""".format(variant_name=variant_name)
 
+    deps = "[]"
 
+    if ctx.attr.has_hdrs:
+        deps += "+ [\":hdrs\"]"
+
+    if ctx.attr.has_shared:
+        deps += " + select({{{}, \"//conditions:default\": []}})".format(", ".join([
+            "\":{variant_name}_config\": [\":{variant_name}_shared\"]".format(variant_name=variant_name)
+            for variant_name
+            in ctx.attr.variants.keys()
+        ]))
+
+    if ctx.attr.has_static:
+        deps += " + select({{{}, \"//conditions:default\": []}})".format(", ".join([
+            "\":{variant_name}_config\": [\":{variant_name}_static\"]".format(variant_name=variant_name)
+            for variant_name
+            in ctx.attr.variants.keys()
+        ]))
+
+    deps += "+ [{}]".format(", ".join([
+        "\"{dep}\"".format(dep=dep)
+        for dep in ctx.attr.deps
+    ]))
+
+    output_build_file_content += """
+cc_library(
+    name = "{name}",
+    deps = {deps},
+    visibility = ["//visibility:public"],
+)
+""".format(
+    name=ctx.attr.name,
+    deps=deps,
+)
 
     ctx.file("BUILD", output_build_file_content)
-    return update_attrs(ctx.attr, _wpilib_artifact_attrs.keys(), updated_attrs)
+    return update_attrs(ctx.attr, _wpilib_artifact_attrs.keys(), {}) #updated_attrs)
 
 wpilib_artifact = repository_rule(
     implementation = _wpilib_artifact_impl,
