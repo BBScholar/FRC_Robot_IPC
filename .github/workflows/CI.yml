@@ -24,6 +24,12 @@ jobs:
       run: |
         bazel build //... --config=roborio
     
+    - name: Test
+      run: |
+        echo "Test verification not implemented yet."
+
+    # bazel test //... --config=roborio
+    
     - uses: DoozyX/clang-format-lint-action@v0.5
       with:
         source: '.'
@@ -32,9 +38,7 @@ jobs:
         clangFormatVersion: 9
 
     
-    # - name: Test
-    #   run: |
-    #     bazel test //... --config=roborio
+   
 
       
 
