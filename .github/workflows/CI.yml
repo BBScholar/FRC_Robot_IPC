@@ -4,30 +4,30 @@ on:
   push: {}
 
 jobs:
-  build:
+  checks:
+    name: VerifyBuild
     runs-on: ubuntu-latest
-    
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
 
-    - name: Mount bazel cache
-      uses: actions/cache@v1
-      with:
-        path: "/home/runner/.cache/bazel"
-        key: bazel
-
-    - name: Install bazelisk
+    - name: InstallBazel
       run: |
-        curl -LO "https://github.com/bazelbuild/bazelisk/releases/download/v1.1.0/bazelisk-linux-amd64"
-        mkdir -p "${GITHUB_WORKSPACE}/bin/"
-        mv bazelisk-linux-amd64 "${GITHUB_WORKSPACE}/bin/bazel"
-        chmod +x "${GITHUB_WORKSPACE}/bin/bazel"
+        curl https://bazel.build/bazel-release.pub.gpg | sudo apt-key add -
+        echo "deb [arch=amd64] https://storage.googleapis.com/bazel-apt stable jdk1.8" | sudo tee /etc/apt/sources.list.d/bazel.list
+        sudo apt update && sudo apt install bazel
+        sudo apt install bazel-2.1.0
+        sudo apt install libfuse-dev pkg-config
+        rustup update
+        cargo install sandboxfs
 
     - name: Build
       run: |
-        "${GITHUB_WORKSPACE}/bin/bazel" build //... --experimental_use_sandboxfs --config=roborio --crosstool_top=//third_party/roborio_toolchain:roborio_toolchain_suite
+        bazel build //... --config=roborio
+    
+    # - name: Test
+    #   run: |
+    #     bazel test //... --config=roborio
 
 
-    - name: Test
-      run: |
-        "${GITHUB_WORKSPACE}/bin/bazel" test //...  --experimental_use_sandboxfs --config=roborio --crosstool_top=//third_party/roborio_toolchain:roborio_toolchain_suite
+    
+
