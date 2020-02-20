@@ -10,6 +10,7 @@ _wpilib_artifact_attrs = {
     "base_url": attr.string(mandatory=True),
     "variants": attr.string_list_dict(),
     "deps": attr.string_list(),
+    "linkopts" : attr.string_list(),
 
     "has_hdrs": attr.bool(default=True),
     "hdrs_sha256": attr.string(),
@@ -140,11 +141,13 @@ cc_library(
 cc_library(
     name = "{name}",
     deps = {deps},
+    linkopts = {linkopts},
     visibility = ["//visibility:public"],
 )
 """.format(
     name=ctx.attr.name,
     deps=deps,
+    linkopts=ctx.attr.linkopts
 )
 
     ctx.file("BUILD", output_build_file_content)

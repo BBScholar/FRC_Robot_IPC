@@ -191,6 +191,7 @@ wpilib_artifact(
         ],
     },
     has_shared=False,
+    linkopts = ["-pthread"],
     deps = [
         "@cci//:cci",
         "@wpiapi-cpp//:wpiapi-cpp",
