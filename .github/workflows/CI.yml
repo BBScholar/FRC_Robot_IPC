@@ -19,7 +19,7 @@ jobs:
     
     - name: Test
       run: |
-        bazel test //...
+        bazel test //src:main --config=roborio
 
     - name: Build
       run: |
