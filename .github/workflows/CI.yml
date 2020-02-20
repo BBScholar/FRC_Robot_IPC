@@ -24,20 +24,18 @@ jobs:
       run: |
         bazel build //... --config=roborio
     
-    # - name: Test
-    #   run: |
-    #     bazel test //... --config=roborio
-  checks:
-    name: VerifyFormat
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: DoozyX/clang-format-lint-action@v0.5
+    - uses: DoozyX/clang-format-lint-action@v0.5
         with:
           source: '.'
           exclude: './third_party'
           extensions: 'h,cpp'
           clangFormatVersion: 9
+
+    
+    # - name: Test
+    #   run: |
+    #     bazel test //... --config=roborio
+
       
 
 
