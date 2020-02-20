@@ -1,11 +1,11 @@
 cc_library(
-    name="ctre_phoenix_cci",
-    srcs=[
+    name = "ctre_phoenix_cci",
+    srcs = [
         "linux/athena/static/libCTRE_PhoenixCCI.a",
     ],
-    deps=[
+    visibility = ["//visibility:public"],
+    deps = [
         "@ctre_phoenix_cci_hdrs//:hdrs",
-        "@ctre_phoenix_core//:ctre_phoenix_core",
+        "@ctre_phoenix_core",
     ],
-    visibility=["//visibility:public"],
 )

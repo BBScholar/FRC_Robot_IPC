@@ -1,14 +1,14 @@
 cc_library(
-    name="wpilibc",
-    srcs=[
+    name = "wpilibc",
+    srcs = [
         "linux/athena/static/libwpilibc.a",
     ],
-    deps=[
+    visibility = ["//visibility:public"],
+    deps = [
+        "@cameraserver",
+        "@hal",
+        "@ni_libraries_netcomm",
+        "@ntcore",
         "@wpilibc_hdrs//:hdrs",
-        "@hal//:hal",
-        "@ntcore//:ntcore",
-        "@cameraserver//:cameraserver",
-        "@ni_libraries_netcomm//:ni_libraries_netcomm",
     ],
-    visibility=["//visibility:public"],
 )
