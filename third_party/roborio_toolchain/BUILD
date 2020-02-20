@@ -6,6 +6,7 @@ cc_toolchain_suite(
         "darwin": ":roborio_toolchain",
         "linux": ":roborio_toolchain",
         "windows": ":roborio_toolchain",
+        "k8": ":roborio_toolchain"
     },
 )
 
