@@ -22,4 +22,4 @@ IPC framework intended for use in First Robotics Competition using [ZeroMQ](http
 - More?
 
 ## Styling:
-For the C/C++ files, please use the google style-guide, the CI won't pass without it. Format the code with clang-format by executing `./format.sh`. Eventually, clang-tidy will be added as well.
+For the C/C++ files, please use the google style-guide, the CI won't pass without it. Format the code with clang-format by executing `./format.sh`. Eventually, clang-tidy will be added as well. Make sure you have clang-tidy and clang-format installed.
