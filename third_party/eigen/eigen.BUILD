@@ -1,7 +1,7 @@
 cc_library(
-    name = 'eigen',
+    name = "eigen",
     srcs = [],
-    includes = ['.'],
-    hdrs = glob(['Eigen/**']),
-    visibility = ['//visibility:public'],
+    hdrs = glob(["Eigen/**"]),
+    includes = ["."],
+    visibility = ["//visibility:public"],
 )

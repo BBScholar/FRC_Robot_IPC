@@ -1,11 +1,11 @@
 cc_library(
-    name="cameraserver",
-    srcs=[
+    name = "cameraserver",
+    srcs = [
         "linux/athena/static/libcameraserver.a",
     ],
-    deps=[
+    visibility = ["//visibility:public"],
+    deps = [
         "@cameraserver_hdrs//:hdrs",
-        "@cscore//:cscore",
+        "@cscore",
     ],
-    visibility=["//visibility:public"],
 )

@@ -1,10 +1,11 @@
 cc_library(
-    name="wpiutil",
-    srcs=[
+    name = "wpiutil",
+    srcs = [
         "linux/athena/static/libwpiutil.a",
     ],
-    deps=[
+    linkopts = ["-lpthread"],
+    visibility = ["//visibility:public"],
+    deps = [
         "@wpiutil_hdrs//:hdrs",
     ],
-    visibility=["//visibility:public"],
 )

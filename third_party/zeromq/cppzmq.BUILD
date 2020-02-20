@@ -1,6 +1,9 @@
 cc_library(
     name = "cppzmq",
-    hdrs = ["zmq.hpp", "zmq_addon.hpp"],
-    deps = ["@libzmq//:libzmq"],
-    visibility = ['//visibility:public']
+    hdrs = [
+        "zmq.hpp",
+        "zmq_addon.hpp",
+    ],
+    visibility = ["//visibility:public"],
+    deps = ["@libzmq"],
 )

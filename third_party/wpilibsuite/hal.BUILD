@@ -1,12 +1,13 @@
 cc_library(
-    name="hal",
-    srcs=[
+    name = "hal",
+    srcs = [
         "linux/athena/static/libwpiHal.a",
     ],
-    deps=[
+    linkopts = ["-lm"],
+    visibility = ["//visibility:public"],
+    deps = [
         "@hal_hdrs//:hdrs",
-        "@wpiutil//:wpiutil",
-        "@ni_libraries_visa//:ni_libraries_visa",
+        "@ni_libraries_visa",
+        "@wpiutil",
     ],
-    visibility=["//visibility:public"],
 )
