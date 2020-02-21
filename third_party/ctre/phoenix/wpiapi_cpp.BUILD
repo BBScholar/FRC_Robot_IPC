@@ -1,10 +1,10 @@
 cc_library(
-    name="ctre_phoenix_wpiapi_cpp",
-    srcs=[
+    name = "ctre_phoenix_wpiapi_cpp",
+    srcs = [
         "linux/athena/static/libCTRE_Phoenix_WPI.a",
     ],
-    deps=[
+    visibility = ["//visibility:public"],
+    deps = [
         "@ctre_phoenix_wpiapi_cpp_hdrs//:hdrs",
     ],
-    visibility=["//visibility:public"],
 )

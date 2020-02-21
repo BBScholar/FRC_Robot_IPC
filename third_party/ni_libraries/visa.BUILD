@@ -1,10 +1,10 @@
 cc_library(
-    name="ni_libraries_visa",
-    srcs=[
+    name = "ni_libraries_visa",
+    srcs = [
         "linux/athena/shared/libvisa.so",
     ],
-    deps=[
+    visibility = ["//visibility:public"],
+    deps = [
         "@ni_libraries_visa_hdrs//:hdrs",
     ],
-    visibility=["//visibility:public"],
 )

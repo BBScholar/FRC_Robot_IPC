@@ -1,10 +1,10 @@
 cc_library(
-    name="opencv",
-    srcs=[
+    name = "opencv",
+    srcs = [
         "linux/athena/static/libopencv347.a",
     ],
-    deps=[
+    visibility = ["//visibility:public"],
+    deps = [
         "@opencv_hdrs//:hdrs",
     ],
-    visibility=["//visibility:public"],
 )

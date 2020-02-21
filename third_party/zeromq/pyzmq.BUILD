@@ -1,3 +1,3 @@
 py_library(
-    name = "pyzmq"
+    name = "pyzmq",
 )

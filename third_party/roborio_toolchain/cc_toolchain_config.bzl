@@ -13,45 +13,45 @@ load(
 def _impl(ctx):
     tool_paths = [
         tool_path(
-            name="ar",
-            path="{}/bin/arm-frc2020-linux-gnueabi-ar{}".format(ctx.attr.path_prefix, ctx.attr.path_suffix),
+            name = "ar",
+            path = "{}/bin/arm-frc2020-linux-gnueabi-ar{}".format(ctx.attr.path_prefix, ctx.attr.path_suffix),
         ),
         tool_path(
-            name="cpp",
-            path="{}/bin/arm-frc2020-linux-gnueabi-cpp{}".format(ctx.attr.path_prefix, ctx.attr.path_suffix),
+            name = "cpp",
+            path = "{}/bin/arm-frc2020-linux-gnueabi-cpp{}".format(ctx.attr.path_prefix, ctx.attr.path_suffix),
         ),
         tool_path(
-            name="gcc",
-            path="{}/bin/arm-frc2020-linux-gnueabi-gcc{}".format(ctx.attr.path_prefix, ctx.attr.path_suffix),
+            name = "gcc",
+            path = "{}/bin/arm-frc2020-linux-gnueabi-gcc{}".format(ctx.attr.path_prefix, ctx.attr.path_suffix),
         ),
         tool_path(
-            name="gcov",
-            path="{}/bin/arm-frc2020-linux-gnueabi-gcov{}".format(ctx.attr.path_prefix, ctx.attr.path_suffix),
+            name = "gcov",
+            path = "{}/bin/arm-frc2020-linux-gnueabi-gcov{}".format(ctx.attr.path_prefix, ctx.attr.path_suffix),
         ),
         tool_path(
-            name="ld",
-            path="{}/bin/arm-frc2020-linux-gnueabi-ld{}".format(ctx.attr.path_prefix, ctx.attr.path_suffix),
+            name = "ld",
+            path = "{}/bin/arm-frc2020-linux-gnueabi-ld{}".format(ctx.attr.path_prefix, ctx.attr.path_suffix),
         ),
         tool_path(
-            name="nm",
-            path="{}/bin/arm-frc2020-linux-gnueabi-nm{}".format(ctx.attr.path_prefix, ctx.attr.path_suffix),
+            name = "nm",
+            path = "{}/bin/arm-frc2020-linux-gnueabi-nm{}".format(ctx.attr.path_prefix, ctx.attr.path_suffix),
         ),
         tool_path(
-            name="objdump",
-            path="{}/bin/arm-frc2020-linux-gnueabi-objdump{}".format(ctx.attr.path_prefix, ctx.attr.path_suffix),
+            name = "objdump",
+            path = "{}/bin/arm-frc2020-linux-gnueabi-objdump{}".format(ctx.attr.path_prefix, ctx.attr.path_suffix),
         ),
         tool_path(
-            name="strip",
-            path="{}/bin/arm-frc2020-linux-gnueabi-strip{}".format(ctx.attr.path_prefix, ctx.attr.path_suffix),
+            name = "strip",
+            path = "{}/bin/arm-frc2020-linux-gnueabi-strip{}".format(ctx.attr.path_prefix, ctx.attr.path_suffix),
         ),
     ]
 
     toolchain_include_directories_feature = feature(
-        name="toolchain-include-directories",
-        enabled=True,
-        flag_sets=[
+        name = "toolchain-include-directories",
+        enabled = True,
+        flag_sets = [
             flag_set(
-                actions=[
+                actions = [
                     ACTION_NAMES.c_compile,
                     ACTION_NAMES.cpp_compile,
                     ACTION_NAMES.linkstamp_compile,
@@ -63,9 +63,9 @@ def _impl(ctx):
                     ACTION_NAMES.lto_backend,
                     ACTION_NAMES.clif_match,
                 ],
-                flag_groups=[
+                flag_groups = [
                     flag_group(
-                        flags=[
+                        flags = [
                             "-no-canonical-prefixes",
                             "-std=c++17",
                             "-Wno-psabi",
@@ -74,14 +74,12 @@ def _impl(ctx):
                 ],
             ),
             flag_set(
-                actions=[
+                actions = [
                     ACTION_NAMES.cpp_link_executable,
                 ],
-                flag_groups=[
+                flag_groups = [
                     flag_group(
-                        flags=[
-                            "-lm",
-                            "-lpthread",
+                        flags = [
                             "-lstdc++",
                         ],
                     ),
@@ -91,27 +89,27 @@ def _impl(ctx):
     )
 
     return cc_common.create_cc_toolchain_config_info(
-        ctx=ctx,
-        toolchain_identifier="roborio-toolchain",
-        host_system_name="unknown", # TODO: should this be customizable?
-        target_system_name="arm-frc2020-linux-gnueabi",
-        target_cpu="armv7",
-        target_libc="gnueabi",
-        compiler="gcc",
-        abi_version="unknown",
-        abi_libc_version="unknown",
-        tool_paths=tool_paths,
-        builtin_sysroot="third_party/roborio_toolchain/{}/arm-frc2020-linux-gnueabi".format(
+        ctx = ctx,
+        toolchain_identifier = "roborio-toolchain",
+        host_system_name = "unknown",  # TODO: should this be customizable?
+        target_system_name = "arm-frc2020-linux-gnueabi",
+        target_cpu = "armv7",
+        target_libc = "gnueabi",
+        compiler = "gcc",
+        abi_version = "unknown",
+        abi_libc_version = "unknown",
+        tool_paths = tool_paths,
+        builtin_sysroot = "third_party/roborio_toolchain/{}/arm-frc2020-linux-gnueabi".format(
             ctx.attr.path_prefix,
         ),
-        features=[toolchain_include_directories_feature],
+        features = [toolchain_include_directories_feature],
     )
 
 cc_toolchain_config = rule(
-    implementation=_impl,
-    attrs={
-        "path_prefix": attr.string(default="", mandatory=False),
-        "path_suffix": attr.string(default="", mandatory=False),
+    implementation = _impl,
+    attrs = {
+        "path_prefix": attr.string(default = "", mandatory = False),
+        "path_suffix": attr.string(default = "", mandatory = False),
     },
-    provides=[CcToolchainConfigInfo],
+    provides = [CcToolchainConfigInfo],
 )
