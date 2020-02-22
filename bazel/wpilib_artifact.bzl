@@ -33,6 +33,7 @@ cc_library(
         "**/*.inc",
         "**/*.inl",
     ]),
+    visibility=["//visibility:public"]
 )
 """
 
@@ -96,6 +97,7 @@ cc_library(
         ],
         exclude = ["**/*.debug"],
     ),
+    visibility=["//visibility:public"]
 )
 """.format(variant_name=variant_name)
 
@@ -128,6 +130,7 @@ cc_library(
     srcs = glob([
         "**/*.a",
     ]),
+    visibility=["//visibility:public"]
 )
 """.format(variant_name=variant_name)
 
@@ -142,18 +145,18 @@ http_archive(
     deps = "[]"
 
     if ctx.attr.has_hdrs:
-        deps += "+ [\"@hdrs//:hdrs\"]"
+        deps += "+ [\"//:hdrs\"]"
 
     if ctx.attr.has_shared:
         deps += " + select({{{}, \"//conditions:default\": []}})".format(", ".join([
-            "\":{variant_name}_config\": [\"@{variant_name}_shared//:{variant_name}_shared\"]".format(variant_name=variant_name)
+            "\":{variant_name}_config\": [\"//:{variant_name}_shared\"]".format(variant_name=variant_name)
             for variant_name
             in ctx.attr.variants.keys()
         ]))
 
     if ctx.attr.has_static:
         deps += " + select({{{}, \"//conditions:default\": []}})".format(", ".join([
-            "\":{variant_name}_config\": [\"@{variant_name}_static//:{variant_name}_static\"]".format(variant_name=variant_name)
+            "\":{variant_name}_config\": [\"//:{variant_name}_static\"]".format(variant_name=variant_name)
             for variant_name
             in ctx.attr.variants.keys()
         ]))
