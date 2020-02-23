@@ -89,7 +89,7 @@ cc_library(
 )
 """
 
-load("//:bazel/wpilib_artifact.bzl", "wpilib_artifact")
+load("//:bazel/wpilib_artifact.bzl", "wpilib_artifact", "generate_wpilib_archives")
 
 common_variants = {
     "linuxathena": [
@@ -110,7 +110,7 @@ common_variants = {
     ],
 }
 
-wpilib_artifact(
+generate_wpilib_archives(
     name = "wpilibc-cpp",
     version = WPILIB_VERSION,
     base_url = "https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/wpilibc",
@@ -123,7 +123,7 @@ wpilib_artifact(
     ],
 )
 
-wpilib_artifact(
+generate_wpilib_archives(
     name = "hal-cpp",
     version = WPILIB_VERSION,
     base_url = "https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/hal",
@@ -134,14 +134,14 @@ wpilib_artifact(
     ],
 )
 
-wpilib_artifact(
+generate_wpilib_archives(
     name = "wpiutil-cpp",
     version = WPILIB_VERSION,
     base_url = "https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/wpiutil",
     variants = common_variants,
 )
 
-wpilib_artifact(
+generate_wpilib_archives(
     name = "ntcore-cpp",
     version = WPILIB_VERSION,
     base_url = "https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/ntcore",
@@ -151,7 +151,7 @@ wpilib_artifact(
     ],
 )
 
-wpilib_artifact(
+generate_wpilib_archives(
     name = "cameraserver-cpp",
     version = WPILIB_VERSION,
     base_url = "https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/cameraserver",
@@ -161,7 +161,7 @@ wpilib_artifact(
     ],
 )
 
-wpilib_artifact(
+generate_wpilib_archives(
     name = "cscore-cpp",
     version = WPILIB_VERSION,
     base_url = "https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/cscore",
@@ -172,7 +172,7 @@ wpilib_artifact(
     ],
 )
 
-wpilib_artifact(
+generate_wpilib_archives(
     name = "api-cpp",
     version = CTRE_LIB_VERSION,
     base_url = "https://devsite.ctr-electronics.com/maven/release/com/ctre/phoenix",
@@ -198,7 +198,7 @@ wpilib_artifact(
     ],
 )
 
-wpilib_artifact(
+generate_wpilib_archives(
     name = "core",
     version = CTRE_LIB_VERSION,
     base_url = "https://devsite.ctr-electronics.com/maven/release/com/ctre/phoenix",
@@ -219,7 +219,7 @@ wpilib_artifact(
     has_shared=False,
 )
 
-wpilib_artifact(
+generate_wpilib_archives(
     name = "cci",
     version = CTRE_LIB_VERSION,
     base_url = "https://devsite.ctr-electronics.com/maven/release/com/ctre/phoenix",
@@ -243,7 +243,7 @@ wpilib_artifact(
     ],
 )
 
-wpilib_artifact(
+generate_wpilib_archives(
     name = "wpiapi-cpp",
     version = CTRE_LIB_VERSION,
     base_url = "https://devsite.ctr-electronics.com/maven/release/com/ctre/phoenix",
@@ -264,7 +264,7 @@ wpilib_artifact(
     has_shared=False,
 )
 
-wpilib_artifact(
+generate_wpilib_archives(
     name = "netcomm",
     version = NI_LIB_VERSION,
     base_url = "https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/ni-libraries",
@@ -282,7 +282,7 @@ wpilib_artifact(
     ],
 )
 
-wpilib_artifact(
+generate_wpilib_archives(
     name = "chipobject",
     version = NI_LIB_VERSION,
     base_url = "https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/ni-libraries",
@@ -298,7 +298,7 @@ wpilib_artifact(
     ],
 )
 
-wpilib_artifact(
+generate_wpilib_archives(
     name = "runtime",
     version = NI_LIB_VERSION,
     base_url = "https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/ni-libraries",
@@ -315,7 +315,7 @@ wpilib_artifact(
     ],
 )
 
-wpilib_artifact(
+generate_wpilib_archives(
     name = "visa",
     version = NI_LIB_VERSION,
     base_url = "https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/ni-libraries",
@@ -328,7 +328,7 @@ wpilib_artifact(
     has_static=False,
 )
 
-wpilib_artifact(
+generate_wpilib_archives(
     name = "opencv-cpp",
     version = OPEN_CV_VERSION,
     base_url = "https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/thirdparty/frc2020/opencv",
