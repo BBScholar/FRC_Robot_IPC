@@ -92,10 +92,10 @@ cc_library(
 load("//:bazel/wpilib_deps.bzl", "wpilib_deps")
 
 wpilib_deps(
-    wpilib_version=WPILIB_VERSION,
-    ctre_version=CTRE_LIB_VERSION,
-    ni_version=NI_LIB_VERSION,
-    opencv_version=OPEN_CV_VERSION
+    ctre_version = CTRE_LIB_VERSION,
+    ni_version = NI_LIB_VERSION,
+    opencv_version = OPEN_CV_VERSION,
+    wpilib_version = WPILIB_VERSION,
 )
 
 http_archive(

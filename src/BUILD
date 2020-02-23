@@ -7,7 +7,7 @@ cc_binary(
     ],
     copts = ["-std=c++17"],
     deps = [
-        "@api-cpp", # ctre
+        "@api-cpp",  # ctre
         "@eigen",
         "@wpilibc-cpp",
     ],

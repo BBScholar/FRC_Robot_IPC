@@ -1,4 +1,4 @@
-load("//:bazel/wpilib_artifact.bzl", "wpilib_artifact", "generate_wpilib_archives")
+load("//:bazel/wpilib_artifact.bzl", "generate_wpilib_archives", "wpilib_artifact")
 
 def wpilib_deps(wpilib_version, ctre_version, ni_version, opencv_version):
     common_variants = {
@@ -19,7 +19,6 @@ def wpilib_deps(wpilib_version, ctre_version, ni_version, opencv_version):
             "@platforms//os:windows",
         ],
     }
-
 
     generate_wpilib_archives(
         name = "wpilibc-cpp",
@@ -101,7 +100,7 @@ def wpilib_deps(wpilib_version, ctre_version, ni_version, opencv_version):
                 "@platforms//os:windows",
             ],
         },
-        has_shared=False,
+        has_shared = False,
         linkopts = ["-pthread"],
         deps = [
             "@cci//:cci",
@@ -127,7 +126,7 @@ def wpilib_deps(wpilib_version, ctre_version, ni_version, opencv_version):
                 "@platforms//os:windows",
             ],
         },
-        has_shared=False,
+        has_shared = False,
     )
 
     generate_wpilib_archives(
@@ -148,7 +147,7 @@ def wpilib_deps(wpilib_version, ctre_version, ni_version, opencv_version):
                 "@platforms//os:windows",
             ],
         },
-        has_shared=False,
+        has_shared = False,
         deps = [
             "@core//:core",
         ],
@@ -172,7 +171,7 @@ def wpilib_deps(wpilib_version, ctre_version, ni_version, opencv_version):
                 "@platforms//os:windows",
             ],
         },
-        has_shared=False,
+        has_shared = False,
     )
 
     generate_wpilib_archives(
@@ -185,8 +184,7 @@ def wpilib_deps(wpilib_version, ctre_version, ni_version, opencv_version):
                 "@platforms//os:linux",
             ],
         },
-
-        has_static=False,
+        has_static = False,
         deps = [
             "@chipobject//:chipobject",
             "@runtime//:runtime",
@@ -203,7 +201,7 @@ def wpilib_deps(wpilib_version, ctre_version, ni_version, opencv_version):
                 "@platforms//os:linux",
             ],
         },
-        has_static=False,
+        has_static = False,
         deps = [
             "@runtime//:runtime",
         ],
@@ -219,8 +217,8 @@ def wpilib_deps(wpilib_version, ctre_version, ni_version, opencv_version):
                 "@platforms//os:linux",
             ],
         },
-        has_hdrs=False,
-        has_static=False,
+        has_hdrs = False,
+        has_static = False,
         deps = [
             "@hal-cpp//:hal-cpp",
         ],
@@ -236,7 +234,7 @@ def wpilib_deps(wpilib_version, ctre_version, ni_version, opencv_version):
                 "@platforms//os:linux",
             ],
         },
-        has_static=False,
+        has_static = False,
     )
 
     generate_wpilib_archives(
