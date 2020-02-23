@@ -80,7 +80,7 @@ toolchain(
     name = "roborio_toolchain_darwin",
     exec_compatible_with = [
         "@platforms//cpu:x86_64",
-        "@platforms//os:macos",
+        "@platforms//os:osx",
     ],
     target_compatible_with = [
         "@platforms//cpu:armv7",

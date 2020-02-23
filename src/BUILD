@@ -5,10 +5,10 @@ cc_binary(
         "main.cpp",
         "main.h",
     ],
-    copts = [],
+    copts = ["-std=c++17"],
     deps = [
-        "@ctre_phoenix_api_cpp",
+        "@api-cpp",  # ctre
         "@eigen",
-        "@wpilibc",
+        "@wpilibc-cpp",
     ],
 )
