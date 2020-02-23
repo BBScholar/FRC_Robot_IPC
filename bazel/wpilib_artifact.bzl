@@ -59,8 +59,6 @@ cc_library(
                 build_file_content="""{}""".format(build_file)
             )
 
-            print("creating repoitory of name: {name}_{variant_name}_shared".format(name=name, variant_name=variant_name))
-
         if(has_static):
             static_url = "{base_url}/{name}/{version}/{name}-{version}-{variant_name}static.zip".format(
                 base_url=base_url,
