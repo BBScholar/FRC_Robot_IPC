@@ -25,18 +25,6 @@ _wpilib_artifact_attrs = {
 #    "debug_sha256": attr.string(),
 }
 
-HEADER_BUILD_FILE_CONTENT = """
-cc_library(
-    name = "hdrs",
-    hdrs = glob([
-        "**/*.h",
-        "**/*.inc",
-        "**/*.inl",
-    ]),
-    visibility=["//visibility:public"]
-)
-"""
-
 def _wpilib_artifact_impl(ctx):
     updated_attrs = {}
 
@@ -69,13 +57,26 @@ config_setting(
             name=ctx.attr.name,
             version=ctx.attr.version,
         )
+        hdr = """
+cc_library(
+    name = "{}_hdrs",
+    hdrs = glob([
+        "**/*.h",
+        "**/*.inc",
+        "**/*.inl",
+    ]),
+    visibility=["//visibility:public"]
+)
+""".format(ctx.attr.name)
+
+
         output_workspace_file_content += """
 http_archive(
-    name="hdrs",
+    name="{name}_hdrs",
     urls = ["{url}"],
     build_file_content = \"\"\"{build_file_content}\"\"\"
 ) \n
-        """.format(url=hdrs_url, build_file_content=HEADER_BUILD_FILE_CONTENT)
+        """.format(name=ctx.attr.name, url=hdrs_url, build_file_content=hdr)
         
     # generate http archives for shared and static libraries
     for variant_name, variant_constraint_values in ctx.attr.variants.items():
@@ -89,7 +90,7 @@ http_archive(
 
             build_file = """
 cc_library(
-    name = "{variant_name}_shared",
+    name = "{name}_{variant_name}_shared",
     srcs = glob(
         [
             "**/*.so",
@@ -99,15 +100,16 @@ cc_library(
     ),
     visibility=["//visibility:public"]
 )
-""".format(variant_name=variant_name)
+""".format(name=ctx.attr.name,variant_name=variant_name)
 
             output_workspace_file_content = """
 http_archive(
-    name = "{variant_name}_shared",
+    name = "{name}_{variant_name}_shared",
     urls = ["{url}"],
     build_file_content = \"\"\"{build_file_content}\"\"\"
 )
 """.format(
+    name=ctx.attr.name,
     variant_name = variant_name,
     url = shared_url,
     build_file_content = build_file
@@ -120,43 +122,40 @@ http_archive(
                 version=ctx.attr.version,
                 variant_name=variant_name,
             )
-            # ctx.download_and_extract(
-            #     static_url,
-            #     "{variant_name}_static".format(variant_name=variant_name),
-            # )
+
             build_file = """
 cc_library(
-    name = "{variant_name}_static",
+    name = "{name}_{variant_name}_static",
     srcs = glob([
         "**/*.a",
     ]),
     visibility=["//visibility:public"]
 )
-""".format(variant_name=variant_name)
+""".format(name=ctx.attr.name, variant_name=variant_name)
 
             output_workspace_file_content += """
 http_archive(
-    name="{variant_name}_static",
+    name="{name}_{variant_name}_static",
     urls = ["{url}"],
     build_file_content = \"\"\"{build_file_content} \"\"\"
 )
-            """.format(variant_name=variant_name, url=static_url, build_file_content=build_file)
+            """.format(name=ctx.attr.name, variant_name=variant_name, url=static_url, build_file_content=build_file)
 
     deps = "[]"
 
     if ctx.attr.has_hdrs:
-        deps += "+ [\"//:hdrs\"]"
+        deps += "+ [\"//external:{name}_hdrs\"]".format(name=ctx.attr.name)
 
     if ctx.attr.has_shared:
         deps += " + select({{{}, \"//conditions:default\": []}})".format(", ".join([
-            "\":{variant_name}_config\": [\"//:{variant_name}_shared\"]".format(variant_name=variant_name)
+            "\":{variant_name}_config\": [\"//external:{name}_{variant_name}_shared\"]".format(name=ctx.attr.name,variant_name=variant_name)
             for variant_name
             in ctx.attr.variants.keys()
         ]))
 
     if ctx.attr.has_static:
         deps += " + select({{{}, \"//conditions:default\": []}})".format(", ".join([
-            "\":{variant_name}_config\": [\"//:{variant_name}_static\"]".format(variant_name=variant_name)
+            "\":{variant_name}_config\": [\"//external:{name}_{variant_name}_static\"]".format(name=ctx.attr.name, variant_name=variant_name)
             for variant_name
             in ctx.attr.variants.keys()
         ]))
