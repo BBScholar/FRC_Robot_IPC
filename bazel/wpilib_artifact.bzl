@@ -22,14 +22,14 @@ cc_library(
         "**/*.inl",
     ]),
     includes = ["."],
+    visibility = ["//visibility:public"]
 )
         """.format(name=name)
 
         http_archive(
             name="{name}_hdrs".format(name=name),
             urls=["{url}".format(url=hdrs_url)],
-            build_file_content="""{}""".format(build_file)
-        )
+            build_file_content="""{}""".format(build_file)        )
     for variant_name, variant_constraint_values in variants.items():
         if(has_shared):
             shared_url = "{base_url}/{name}/{version}/{name}-{version}-{variant_name}.zip".format(
@@ -59,6 +59,8 @@ cc_library(
                 build_file_content="""{}""".format(build_file)
             )
 
+            print("creating repoitory of name: {name}_{variant_name}_shared".format(name=name, variant_name=variant_name))
+
         if(has_static):
             static_url = "{base_url}/{name}/{version}/{name}-{version}-{variant_name}static.zip".format(
                 base_url=base_url,
@@ -87,7 +89,10 @@ cc_library(
         name=name,
         deps=deps,
         linkopts=linkopts,
-        variants=variants
+        variants=variants,
+        has_hdrs=has_hdrs,
+        has_shared=has_shared,
+        has_static=has_static
     )
 
 _wpilib_artifact_attrs = {
