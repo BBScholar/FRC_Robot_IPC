@@ -144,18 +144,18 @@ http_archive(
     deps = "[]"
 
     if ctx.attr.has_hdrs:
-        deps += "+ [\"//external:{name}_hdrs\"]".format(name=ctx.attr.name)
+        deps += "+ [\"@{name}_hdrs\"]".format(name=ctx.attr.name)
 
     if ctx.attr.has_shared:
         deps += " + select({{{}, \"//conditions:default\": []}})".format(", ".join([
-            "\":{variant_name}_config\": [\"//external:{name}_{variant_name}_shared\"]".format(name=ctx.attr.name,variant_name=variant_name)
+            "\":{variant_name}_config\": [\"@{name}_{variant_name}_shared\"]".format(name=ctx.attr.name,variant_name=variant_name)
             for variant_name
             in ctx.attr.variants.keys()
         ]))
 
     if ctx.attr.has_static:
         deps += " + select({{{}, \"//conditions:default\": []}})".format(", ".join([
-            "\":{variant_name}_config\": [\"//external:{name}_{variant_name}_static\"]".format(name=ctx.attr.name, variant_name=variant_name)
+            "\":{variant_name}_config\": [\"@{name}_{variant_name}_static\"]".format(name=ctx.attr.name, variant_name=variant_name)
             for variant_name
             in ctx.attr.variants.keys()
         ]))
