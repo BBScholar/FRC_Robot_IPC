@@ -3,6 +3,14 @@ filegroup(
     srcs = ["robotCommand"],
 )
 
+py_binary(
+    name="deployer",
+    srcs=[
+        "deployer.py"
+    ],
+    visibility = ["//visibility:public"],
+)
+
 sh_binary(
     name = "setup_roborio",
     srcs = ["setup_roborio.sh"],

@@ -1,4 +1,5 @@
-# https://docs.bazel.build/versions/master/be/c-cpp.html#cc_binary
+load("//tools/deploy:deploy.bzl", "robot_deploy")
+
 cc_binary(
     name = "main",
     srcs = [
@@ -11,4 +12,11 @@ cc_binary(
         "@eigen",
         "@wpilibc-cpp",
     ],
+)
+
+robot_deploy(
+    name = "main_deploy",
+    start_srcs=[":main"],
+    srcs = [],
+    deploy_location="roborio-5419-frc.local"
 )
