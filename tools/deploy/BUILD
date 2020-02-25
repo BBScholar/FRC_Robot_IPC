@@ -8,6 +8,8 @@ py_binary(
     srcs=[
         "deployer.py"
     ],
+    deps = [
+    ],
     visibility = ["//visibility:public"],
 )
 

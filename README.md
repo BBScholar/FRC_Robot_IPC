@@ -15,7 +15,7 @@ IPC framework intended for use in First Robotics Competition using [ZeroMQ](http
 ## How to Deploy:
 If your RoboRIO is not configured for our architecture, run `bazel run //tools/deploy:setup_roborio -- roborio-5419-frc.local` or whatever the host name/ip of the robot is. This will configure the rio to run our start script and not the default start script. In the future it will possibly configure other settings such as directories and symlinks.
 
-Build the directory with a `robot_deploy` rule inside in order to deploy (ex: `bazel build //src:robot --config=roborio`)
+Run the deploy rule as follows: `bazel run //src:main_deploy --config=roborio`. The script will ssh into the roborio, install needed packages (rysnc, ssl, python, etc) and then deploy the needed binaries.
 
 ## Planned Features:
 - Full cross-compiler support (only roborio for now)
