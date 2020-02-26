@@ -20,4 +20,4 @@ readonly ROBOT_HOSTNAME="$1"
 ssh "admin@${ROBOT_HOSTNAME}" 'PATH="${PATH}":/usr/local/natinst/bin/ /usr/local/frc/bin/frcKillRobot.sh -r -t' || true
 
 echo "Deploying robotCommand startup script"
-scp aos/config/robotCommand "admin@${ROBOT_HOSTNAME}:/home/lvuser/"
+scp tools/deploy/robotCommand "admin@${ROBOT_HOSTNAME}:/home/lvuser/"

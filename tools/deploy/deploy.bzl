@@ -54,27 +54,30 @@ _robot_deploy_attr = {
 def _robot_deploy_impl(ctx):
     all_files = ctx.files.srcs + ctx.files.start_srcs + [ctx.outputs._startlist]
     ctx.actions.write(
-        output=ctx.outputs.executable,
-        is_executable=True,
+        output = ctx.outputs.executable,
+        is_executable = True,
         # im not sure what the code actually does here, well figure it out
-        content = '\n'.join([
-        '#!/bin/bash',
-        'set -e',
-        'cd "${BASH_SOURCE[0]}.runfiles/%s"' % ctx.workspace_name,
+        content = "\n".join([
+            "#!/bin/bash",
+            "set -e",
+            'cd "${BASH_SOURCE[0]}.runfiles/%s"' % ctx.workspace_name,
         ] + ['%s %s --dirs %s -- %s "$@"' % (
-        ctx.executable._downloader.short_path,
-        ' '.join([src.short_path for src in d.downloader_srcs]),
-        d.downloader_dir,
-        ctx.attr.deploy_location) for d in ctx.attr.dirs] + [
-        'exec %s %s -- %s "$@"' % (ctx.executable._downloader.short_path,
-                                    ' '.join([src.short_path for src in all_files]),
-                                    ctx.attr.deploy_location),
+            ctx.executable._downloader.short_path,
+            " ".join([src.short_path for src in d.downloader_srcs]),
+            d.downloader_dir,
+            ctx.attr.deploy_location,
+        ) for d in ctx.attr.dirs] + [
+            'exec %s %s -- %s "$@"' % (
+                ctx.executable._downloader.short_path,
+                " ".join([src.short_path for src in all_files]),
+                ctx.attr.deploy_location,
+            ),
         ]),
     )
 
     ctx.actions.write(
         output = ctx.outputs._startlist,
-        content = '\n'.join([f.basename for f in ctx.files.start_srcs]) + '\n',
+        content = "\n".join([f.basename for f in ctx.files.start_srcs]) + "\n",
     )
     to_download = [ctx.outputs._startlist]
     to_download += all_files
@@ -97,5 +100,5 @@ robot_deploy = rule(
     outputs = {
         "_startlist": "%{name}.start_list.dir/start_list.txt",
     },
-    executable = True
+    executable = True,
 )

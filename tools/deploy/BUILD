@@ -4,13 +4,13 @@ filegroup(
 )
 
 py_binary(
-    name="deployer",
-    srcs=[
-        "deployer.py"
-    ],
-    deps = [
+    name = "deployer",
+    srcs = [
+        "deployer.py",
     ],
     visibility = ["//visibility:public"],
+    deps = [
+    ],
 )
 
 sh_binary(
