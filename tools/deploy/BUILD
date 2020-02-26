@@ -9,8 +9,6 @@ py_binary(
         "deployer.py",
     ],
     visibility = ["//visibility:public"],
-    deps = [
-    ],
 )
 
 sh_binary(
