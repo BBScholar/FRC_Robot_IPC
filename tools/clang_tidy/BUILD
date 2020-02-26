@@ -1,0 +1,40 @@
+
+licenses(["notice"])  # Apache 2.0
+
+package(default_visibility = ["//visibility:public"])
+
+proto_library(
+    name = "extra_actions_base_proto",
+    srcs = ["extra_actions_base.proto"],
+)
+
+cc_proto_library(
+    name = "extra_actions_base_cc_proto",
+    deps = [":extra_actions_base_proto"],
+)
+
+# Extracts a single compile command from an extra action.
+cc_binary(
+    name = "extract_compile_command",
+    srcs = ["extract_compile_command.cc"],
+    deps = [
+        ":extra_actions_base_cc_proto",
+        "@com_github_tencent_rapidjson//:rapidjson",
+    ],
+)
+
+action_listener(
+    name = "extract_json",
+    extra_actions = [":extra_action"],
+    mnemonics = ["CppCompile"],
+    visibility = ["//visibility:public"],
+)
+
+extra_action(
+    name = "extra_action",
+    cmd = "$(location :extract_compile_command) \
+        $(EXTRA_ACTION_FILE) \
+        $(output $(ACTION_ID).compile_command.json)",
+    out_templates = ["$(ACTION_ID).compile_command.json"],
+    tools = [":extract_compile_command"],
+)
