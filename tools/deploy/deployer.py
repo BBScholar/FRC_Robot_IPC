@@ -17,15 +17,15 @@ def install(ssh_target, pkg):
     subprocess.check_call(["wget", PKG_URL, "-O", pkg])
     try:
         subprocess.check_call([
-            "external/ssh/usr/bin/scp", "-S", "external/ssh/usr/bin/ssh", pkg,
+            "scp", "-S", "ssh", pkg,
             ssh_target + ":/tmp/" + pkg
         ])
         subprocess.check_call([
-            "external/ssh/usr/bin/ssh", ssh_target, "opkg", "install",
+            "ssh", ssh_target, "opkg", "install",
             "/tmp/" + pkg
         ])
         subprocess.check_call(
-            ["external/ssh/usr/bin/ssh", ssh_target, "rm", "/tmp/" + pkg])
+            ["ssh", ssh_target, "rm", "/tmp/" + pkg])
     finally:
         subprocess.check_call(["rm", pkg])
 
@@ -66,7 +66,7 @@ def main(argv):
     ssh_target = "%s@%s" % (user, hostname)
 
     rsync_cmd = ([
-        "external/rsync/usr/bin/rsync", "-e", "external/ssh/usr/bin/ssh", "-c",
+        "rsync", "-e", "ssh", "-c",
         "-v", "-z", "--copy-links"
     ] + srcs + ["%s:%s/%s" % (ssh_target, target_dir, relative_dir)])
     try:
@@ -83,7 +83,7 @@ def main(argv):
 
     if not recursive:
         subprocess.check_call(
-            ("external/ssh/usr/bin/ssh", ssh_target, "&&".join([
+            ("ssh", ssh_target, "&&".join([
                 "chmod u+s %s/starter_exe" % target_dir,
                 "echo \'Done moving new executables into place\'",
                 "bash -c \'sync && sync && sync\'",

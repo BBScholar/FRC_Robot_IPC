@@ -7,19 +7,21 @@ IPC framework intended for use in First Robotics Competition using [ZeroMQ](http
 ## How to Build:
 1. Clone the repository
 2. Install [Bazel](https://bazel.build/)
-3. If using Mac, follow [these](https://github.com/bazelbuild/sandboxfs/blob/master/INSTALL.md) instructions to install Sandboxfs
+3. Follow [these](https://github.com/bazelbuild/sandboxfs/blob/master/INSTALL.md) instructions to install Sandboxfs
 4. run `bazel build //... --config=roborio` to build the project
 5. ???
 6. Profit
 
 ## How to Deploy:
-If your RoboRIO is not configured for our architecture, run `bazel run //tools/deploy:setup_roborio -- roborio-5419-frc.local` or whatever the host name/ip of the robot is. This will configure the rio to run our start script and not the default start script. In the future it will possibly configure other settings such as directories and symlinks.
+Make sure you have python3, scp, ssh, and sync available from your command line, otherwise the deploy script will not work.
 
-Run the deploy rule as follows: `bazel run //src:main_deploy --config=roborio`. The script will ssh into the roborio, install needed packages (rysnc, ssl, python, etc) and then deploy the needed binaries.
+If your RoboRIO is not configured for our architecture, run `bazel run //tools/deploy:setup_roborio -- roborio-5419-frc.local` with whatever the host name/ip of your robot is. This will configure the rio to run our start script and not the default start script. In the future it will possibly configure other settings such as directories and symlinks.
+
+Run the deploy rule as follows: `bazel run //src:main_deploy --config=roborio -c opt`. The script will ssh into the roborio, install needed packages (rysnc, ssl, python, etc) and then deploy the robot binaries.
 
 ## Planned Features:
-- Full cross-compiler support (only roborio for now)
-- Automated deploy script using Bazel + Python
+- Full cross-compiler support (This is mostly working as of now)
+- Automated deploy script using Bazel + Python (Written, but needs to be tested)
 - Full IPC communication with both C++ and Python APIs (More languages later?) 
 - Fully unit-testable structure
 - Robust logging system
