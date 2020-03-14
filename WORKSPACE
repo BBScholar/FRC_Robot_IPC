@@ -76,18 +76,12 @@ new_git_repository(
     tag = "v18.1.1",
 )
 
-hdrs_content = """
-cc_library(
-    name = "hdrs",
-    hdrs = glob([
-        "**/*.h",
-        "**/*.inc",
-        "**/*.inl",
-    ]),
-    includes = ["."],
-    visibility = ["//visibility:public"],
+new_git_repository(
+    name="units",
+    build_file="//third_party/units:units.BUILD",
+    remote="https://github.com/nholthaus/units.git",
+    tag="v2.3.1"
 )
-"""
 
 load("//:bazel/wpilib_deps.bzl", "wpilib_deps")
 
