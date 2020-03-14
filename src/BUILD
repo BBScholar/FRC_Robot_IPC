@@ -10,5 +10,6 @@ cc_binary(
         "@api-cpp",  # ctre
         "@eigen",
         "@wpilibc-cpp",
+        "@units"
     ],
 )

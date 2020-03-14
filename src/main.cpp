@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include "units.h"
+
 TalonSRX talon{1};
 
 int main() {
