@@ -77,10 +77,10 @@ new_git_repository(
 )
 
 new_git_repository(
-    name="units",
-    build_file="//third_party/units:units.BUILD",
-    remote="https://github.com/nholthaus/units.git",
-    tag="v2.3.1"
+    name = "units",
+    build_file = "//third_party/units:units.BUILD",
+    remote = "https://github.com/nholthaus/units.git",
+    tag = "v2.3.1",
 )
 
 load("//:bazel/wpilib_deps.bzl", "wpilib_deps")

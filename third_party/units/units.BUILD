@@ -1,6 +1,6 @@
 cc_library(
-    name="units",
+    name = "units",
     hdrs = ["include/units.h"],
     includes = ["include"],
-    visibility=["//visibility:public"]
+    visibility = ["//visibility:public"],
 )
