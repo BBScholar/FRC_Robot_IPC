@@ -11,5 +11,6 @@ cc_binary(
         "@eigen",
         "@units",
         "@wpilibc-cpp",
+        "@yaml-cpp"
     ],
 )
