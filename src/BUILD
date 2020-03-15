@@ -9,7 +9,8 @@ cc_binary(
     deps = [
         "@api-cpp",  # ctre
         "@eigen",
+        "@units",
         "@wpilibc-cpp",
-        "@units"
+        "@yaml-cpp",
     ],
 )
