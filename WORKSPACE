@@ -83,6 +83,13 @@ new_git_repository(
     tag = "v2.3.1",
 )
 
+new_git_repository(
+    name = "yaml-cpp",
+    build_file = "//third_party/yaml_cpp:yaml-cpp.BUILD",
+    remote = "https://github.com/jbeder/yaml-cpp.git",
+    tag = "yaml-cpp-0.6.3",
+)
+
 load("//:bazel/wpilib_deps.bzl", "wpilib_deps")
 
 wpilib_deps(
